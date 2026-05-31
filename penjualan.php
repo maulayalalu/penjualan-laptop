@@ -103,5 +103,44 @@ if (isset($_POST['simpan_transaksi'])) {
             </div>
         </main>
     </div>
+
+    <script>
+// Data laptop dari PHP ke JavaScript
+const laptopData = {
+    <?php 
+    mysqli_data_seek($laptops, 0); // Reset pointer data
+    while($l = mysqli_fetch_assoc($laptops)) {
+        echo "'{$l['id']}': {harga: {$l['harga']}},";
+    }
+    ?>
+};
+const selectLaptop = document.querySelector('select[name="id_laptop"]');
+const inputQty = document.querySelector('input[name="qty"]');
+const displayHarga = document.querySelector('input[placeholder="Otomatis"]');
+const displayTotal = document.querySelector('h3.text-4xl');
+
+function hitungTotal() {
+    const id = selectLaptop.value;
+    const qty = inputQty.value;
+    
+    if (id && laptopData[id]) {
+        const harga = laptopData[id].harga;
+        const total = harga * qty;
+        
+        // Update tampilan harga satuan
+        displayHarga.value = "Rp " + new Intl.NumberFormat('id-ID').format(harga);
+        
+        // Update tampilan total bayar (Besar)
+        displayTotal.innerText = "Rp " + new Intl.NumberFormat('id-ID').format(total);
+    } else {
+        displayHarga.value = "";
+        displayTotal.innerText = "Rp 0";
+    }
+}
+
+// Jalankan fungsi saat laptop dipilih atau jumlah diubah
+selectLaptop.addEventListener('change', hitungTotal);
+inputQty.addEventListener('input', hitungTotal);
+</script>
 </body>
 </html>
