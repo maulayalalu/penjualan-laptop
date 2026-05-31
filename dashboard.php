@@ -56,9 +56,9 @@
 
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
                     <div>
-                        <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-between items-center mb-6">
                             <h3 class="font-bold text-gray-800">Transaksi Terkini</h3>
-                            <a href="#" class="text-xs text-blue-600 font-medium hover:underline">Lihat Semua</a>
+                            <a href="laporan.php" class="text-xs text-blue-600 font-semibold hover:underline">Lihat Semua</a>
                         </div>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between text-xs">
