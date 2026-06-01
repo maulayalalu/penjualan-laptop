@@ -1,15 +1,24 @@
 <?php 
 include 'config.php'; 
 
-// Logika Hapus Data
+// --- LOGIKA HAPUS DATA ---
 if (isset($_GET['hapus'])) {
-    $id = $_GET['hapus'];
-    // Gunakan prepared statement atau minimal mysqli_real_escape_string untuk keamanan
-    mysqli_query($conn, "DELETE FROM laptops WHERE id=$id");
-    header("Location: data-laptop.php");
-    exit;
+    // Mengambil ID dari URL (?hapus=ID)
+    $id = mysqli_real_escape_string($conn, $_GET['hapus']);
+    
+    // Menjalankan perintah hapus ke database
+    $query_hapus = "DELETE FROM laptops WHERE id = '$id'";
+    
+    if (mysqli_query($conn, $query_hapus)) {
+        // Jika berhasil, balikkan ke halaman data-laptop tanpa parameter hapus
+        header("Location: data-laptop.php");
+        exit;
+    } else {
+        echo "Gagal menghapus: " . mysqli_error($conn);
+    }
 }
 
+// Mengambil data terbaru dari database
 $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
@@ -42,7 +51,7 @@ $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
                         <tr>
                             <th class="px-6 py-4">Kode</th>
                             <th class="px-6 py-4">Laptop & Merk</th>
-                            <th class="px-6 py-4">Spesifikasi (RAM/Store)</th>
+                            <th class="px-6 py-4">Spek (RAM/Store)</th>
                             <th class="px-6 py-4">Harga</th>
                             <th class="px-6 py-4">Stok</th>
                             <th class="px-6 py-4 text-center">Aksi</th>
@@ -70,12 +79,12 @@ $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center space-x-3">
-                                    <a href="tambah-laptop.php?edit=<?= $row['id'] ?>" class="p-2 hover:bg-blue-50 rounded-lg transition-colors group" title="Edit">
+                                    <a href="tambah-laptop.php?edit=<?= $row['id'] ?>" class="p-2 hover:bg-blue-50 rounded-lg transition-colors group">
                                         <span class="grayscale group-hover:grayscale-0">✏️</span>
                                     </a>
                                     <a href="data-laptop.php?hapus=<?= $row['id'] ?>" 
                                        class="p-2 hover:bg-red-50 rounded-lg transition-colors group" 
-                                       onclick="return confirm('Yakin ingin menghapus laptop <?= $row['nama_laptop'] ?>?')" title="Hapus">
+                                       onclick="return confirm('Yakin ingin menghapus laptop <?= $row['nama_laptop'] ?>?')">
                                         <span class="grayscale group-hover:grayscale-0">🗑️</span>
                                     </a>
                                 </div>
@@ -84,12 +93,6 @@ $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
                         <?php endwhile; ?>
                     </tbody>
                 </table>
-                
-                <?php if(mysqli_num_rows($query) == 0): ?>
-                    <div class="p-12 text-center">
-                        <p class="text-gray-400">Belum ada data laptop.</p>
-                    </div>
-                <?php endif; ?>
             </div>
         </main>
     </div>

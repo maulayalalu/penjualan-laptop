@@ -4,7 +4,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <div class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between min-h-screen font-sans">
     <div class="p-6">
         <div class="mb-8">
-            <h1 class="text-xl font-bold text-blue-600">Laptop Sales</h1>
+            <h1 class="text-xl font-bold text-blue-600">A-LINKS</h1>
             <p class="text-xs text-gray-500 uppercase tracking-wider">Sistem Manajemen</p>
         </div>
         <nav class="space-y-1">

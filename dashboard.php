@@ -18,19 +18,19 @@
             <div class="grid grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-blue-50 rounded-xl">💻</span><span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md">+2.5%</span></div>
-                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Model Laptop</p><p class="text-2xl font-bold text-gray-800 mt-1">20</p></div>
+                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Model Laptop</p><p class="text-2xl font-bold text-gray-800 mt-1">24</p></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-orange-50 rounded-xl">📦</span><span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-md">Stok Rendah</span></div>
-                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Stok Unit</p><p class="text-2xl font-bold text-gray-800 mt-1">500</p></div>
+                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Stok Unit</p><p class="text-2xl font-bold text-gray-800 mt-1">192</p></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-green-50 rounded-xl">🛒</span><span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md">+12%</span></div>
-                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Laptop Terjual</p><p class="text-2xl font-bold text-gray-800 mt-1">60</p></div>
+                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Laptop Terjual</p><p class="text-2xl font-bold text-gray-800 mt-1">10</p></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-purple-50 rounded-xl">🪙</span><span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded-md">Meningkat</span></div>
-                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Pendapatan (IDR)</p><p class="text-2xl font-bold text-gray-800 mt-1">350jt</p></div>
+                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Pendapatan (IDR)</p><p class="text-2xl font-bold text-gray-800 mt-1">85.0jt</p></div>
                 </div>
             </div>
 
@@ -64,23 +64,30 @@
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">💻</div>
-                                    <div><p class="font-bold text-gray-800">MacBook Air M2</p><p class="text-gray-400 text-[10px]">ID Transaksi: #10522</p></div>
+                                    <div><p class="font-bold text-gray-800">MacBook Air M2</p><p class="text-gray-400 text-[10px]">ID Transaksi: #TRX-00982</p></div>
                                 </div>
-                                <div class="text-right"><p class="font-bold text-gray-800">Rp 19.9jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
+                                <div class="text-right"><p class="font-bold text-gray-800">Rp 15.0jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
                             </div>
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">💻</div>
-                                    <div><p class="font-bold text-gray-800">Dell XPS 13</p><p class="text-gray-400 text-[10px]">ID Transaksi: #10521</p></div>
+                                    <div><p class="font-bold text-gray-800">VivoBook 14</p><p class="text-gray-400 text-[10px]">ID Transaksi: #TRX-00981</p></div>
                                 </div>
-                                <div class="text-right"><p class="font-bold text-gray-800">Rp 24.2jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
+                                <div class="text-right"><p class="font-bold text-gray-800">Rp 7.0jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
                             </div>
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">💻</div>
-                                    <div><p class="font-bold text-gray-800">Asus ROG Strix</p><p class="text-gray-400 text-[10px]">ID Transaksi: #10520</p></div>
+                                    <div><p class="font-bold text-gray-800">IdeaPad Slim 3</p><p class="text-gray-400 text-[10px]">ID Transaksi: #TRX-00983</p></div>
                                 </div>
-                                <div class="text-right"><p class="font-bold text-gray-800">Rp 24.0jt</p><p class="text-orange-500 font-semibold text-[10px]">PENDING</p></div>
+                                <div class="text-right"><p class="font-bold text-gray-800">Rp 7.5jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">💻</div>
+                                    <div><p class="font-bold text-gray-800">Aspire Lite 14</p><p class="text-gray-400 text-[10px]">ID Transaksi: #TRX-00984</p></div>
+                                </div>
+                                <div class="text-right"><p class="font-bold text-gray-800">Rp 6.5jt</p><p class="text-green-500 font-semibold text-[10px]">BERHASIL</p></div>
                             </div>
                         </div>
                     </div>
