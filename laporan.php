@@ -1,4 +1,27 @@
-<?php include 'config.php'; ?>
+<?php 
+include 'config.php'; 
+
+// 1. Logika Filter Tanggal
+$tgl_mulai = isset($_GET['tgl_mulai']) ? $_GET['tgl_mulai'] : date('Y-m-01'); // Default awal bulan
+$tgl_sampai = isset($_GET['tgl_sampai']) ? $_GET['tgl_sampai'] : date('Y-m-d'); // Default hari ini
+
+// 2. Query Ambil Data Penjualan (JOIN dengan tabel laptops untuk ambil nama laptop)
+$query = "SELECT penjualan.*, laptops.nama_laptop, laptops.merk 
+          FROM penjualan 
+          JOIN laptops ON penjualan.id_laptop = laptops.id 
+          WHERE tgl_transaksi BETWEEN '$tgl_mulai' AND '$tgl_sampai'
+          ORDER BY tgl_transaksi DESC";
+$sql = mysqli_query($conn, $query);
+
+// 3. Hitung Ringkasan (Summary)
+$q_sum = mysqli_query($conn, "SELECT SUM(total_bayar) as total_duit, SUM(jumlah_beli) as total_unit 
+                              FROM penjualan 
+                              WHERE tgl_transaksi BETWEEN '$tgl_mulai' AND '$tgl_sampai'");
+$summary = mysqli_fetch_assoc($q_sum);
+$total_pendapatan = $summary['total_duit'] ?? 0;
+$total_unit = $summary['total_unit'] ?? 0;
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,13 +29,10 @@
     <title>Laporan Penjualan - A-LINKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS Khusus Cetak */
         @media print {
             .no-print { display: none !important; }
             body { background-color: white !important; padding: 0 !important; }
             main { padding: 0 !important; max-height: none !important; overflow: visible !important; }
-            .bg-white { border: none !important; shadow: none !important; }
-            .rounded-2xl { border-radius: 0 !important; }
         }
     </style>
 </head>
@@ -30,116 +50,80 @@
             <div class="flex justify-between items-end">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800">Laporan Penjualan</h2>
-                    <p class="text-sm text-gray-500">Pantau performa penjualan dan ringkasan transaksi laptop Anda.</p>
+                    <p class="text-sm text-gray-500">Periode: <?= date('d M Y', strtotime($tgl_mulai)) ?> s/d <?= date('d M Y', strtotime($tgl_sampai)) ?></p>
                 </div>
-                <div class="flex items-center space-x-3 text-xs no-print">
+                
+                <form action="" method="GET" class="flex items-center space-x-3 text-xs no-print">
                     <div>
-                        <label class="block text-[10px] font-semibold text-gray-400 mb-1">Dari Tanggal</label>
-                        <input type="date" class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none">
+                        <label class="block text-[10px] font-semibold text-gray-400 mb-1 uppercase">Dari Tanggal</label>
+                        <input type="date" name="tgl_mulai" value="<?= $tgl_mulai ?>" class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-semibold text-gray-400 mb-1">Sampai Tanggal</label>
-                        <input type="date" class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none">
+                        <label class="block text-[10px] font-semibold text-gray-400 mb-1 uppercase">Sampai Tanggal</label>
+                        <input type="date" name="tgl_sampai" value="<?= $tgl_sampai ?>" class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
-                    <button onclick="window.print()" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg mt-auto shadow-sm flex items-center space-x-1 hover:bg-blue-700">
-                        <span>🖨️</span> <span>Cetak Laporan</span>
-                    </button>
-                </div>
+                    <div class="flex space-x-2 mt-auto">
+                        <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-lg font-bold hover:bg-black transition-colors">Filter</button>
+                        <button type="button" onclick="window.print()" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg shadow-sm flex items-center space-x-1 hover:bg-blue-700 transition-all">
+                            <span>🖨️</span> <span>Cetak</span>
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <div class="grid grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                     <p class="text-xs font-semibold text-gray-400 uppercase">Total Pendapatan</p>
-                    <h3 class="text-3xl font-extrabold text-blue-600 mt-2">Rp 85.000.000</h3>
+                    <h3 class="text-3xl font-extrabold text-blue-600 mt-2">Rp <?= number_format($total_pendapatan, 0, ',', '.') ?></h3>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                     <p class="text-xs font-semibold text-gray-400 uppercase">Unit Terjual</p>
-                    <h3 class="text-3xl font-extrabold text-gray-800 mt-2">10 Unit</h3>
+                    <h3 class="text-3xl font-extrabold text-gray-800 mt-2"><?= $total_unit ?> Unit</h3>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <p class="text-xs font-semibold text-gray-400 uppercase">Rata-rata/Hari</p>
-                    <h3 class="text-3xl font-extrabold text-gray-800 mt-2">Rp 8.500K</h3>
+                    <p class="text-xs font-semibold text-gray-400 uppercase">Status Transaksi</p>
+                    <h3 class="text-3xl font-extrabold text-green-600 mt-2">Berhasil</h3>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center no-print">
-                    <h3 class="font-bold text-gray-800 text-sm">Daftar Transaksi Terbaru</h3>
-                    <div class="flex space-x-2">
-                        <button class="p-2 border border-gray-200 rounded-lg text-xs">⚙️ Filter</button>
-                    </div>
-                </div>
-                
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-gray-50 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                            <th class="px-6 py-3">ID Transaksi</th>
-                            <th class="px-6 py-3">Tanggal</th>
-                            <th class="px-6 py-3">Produk & Spek</th>
-                            <th class="px-6 py-3">RAM</th>
-                            <th class="px-6 py-3">Storage</th>
-                            <th class="px-6 py-3">Total Harga</th>
-                            <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-4">ID Transaksi</th>
+                            <th class="px-6 py-4">Tanggal</th>
+                            <th class="px-6 py-4">Produk</th>
+                            <th class="px-6 py-4 text-center">Jumlah</th>
+                            <th class="px-6 py-4">Total Harga</th>
+                            <th class="px-6 py-4">Catatan</th>
+                            <th class="px-6 py-4">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 font-medium text-gray-700">
-                        <tr>
-                            <td class="px-6 py-4 font-mono text-blue-600 font-bold">#TRX-00982</td>
-                            <td class="px-6 py-4 text-gray-400">24 April 2026</td>
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-gray-800">MacBook Air M2</p>
-                                <p class="text-[10px] text-gray-400">Space Grey</p>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold">8GB</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-500 italic">SSD 256GB</td>
-                            <td class="px-6 py-4 font-bold">Rp 15.000.000</td>
-                            <td><span class="bg-green-50 text-green-600 font-bold text-[10px] px-2 py-0.5 rounded">SELESAI</span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="px-6 py-4 font-mono text-blue-600 font-bold">#TRX-00981</td>
-                            <td class="px-6 py-4 text-gray-400">23 April 2026</td>
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-gray-800">VivoBook 14</p>
-                                <p class="text-[10px] text-gray-400">White </p>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold">8GB</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-500 italic">SSD 512GB</td>
-                            <td class="px-6 py-4 font-bold">Rp 7.000.000</td>
-                            <td><span class="bg-green-50 text-green-600 font-bold text-[10px] px-2 py-0.5 rounded">SELESAI</span></td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-mono text-blue-600 font-bold">#TRX-00983</td>
-                            <td class="px-6 py-4 text-gray-400">25 April 2026</td>
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-gray-800">IdeaPad Slim 3</p>
-                                <p class="text-[10px] text-gray-400">White </p>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold">8GB</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-500 italic">SSD 512GB</td>
-                            <td class="px-6 py-4 font-bold">Rp 7.500.000</td>
-                            <td><span class="bg-green-50 text-green-600 font-bold text-[10px] px-2 py-0.5 rounded">SELESAI</span></td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-mono text-blue-600 font-bold">#TRX-00984</td>
-                            <td class="px-6 py-4 text-gray-400">26 April 2026</td>
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-gray-800">Aspire Lite 14</p>
-                                <p class="text-[10px] text-gray-400">White </p>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold">8GB</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-500 italic">SSD 512GB</td>
-                            <td class="px-6 py-4 font-bold">Rp 6.500.000</td>
-                            <td><span class="bg-green-50 text-green-600 font-bold text-[10px] px-2 py-0.5 rounded">SELESAI</span></td>
-                        </tr>
+                        <?php if(mysqli_num_rows($sql) > 0): ?>
+                            <?php while($row = mysqli_fetch_assoc($sql)): ?>
+                            <tr>
+                                <td class="px-6 py-4 font-mono text-blue-600 font-bold uppercase"><?= $row['id_transaksi'] ?></td>
+                                <td class="px-6 py-4 text-gray-400"><?= date('d M Y', strtotime($row['tgl_transaksi'])) ?></td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-gray-800"><?= $row['nama_laptop'] ?></p>
+                                    <p class="text-[10px] text-gray-400 uppercase"><?= $row['merk'] ?></p>
+                                </td>
+                                <td class="px-6 py-4 text-center"><?= $row['jumlah_beli'] ?></td>
+                                <td class="px-6 py-4 font-bold text-gray-900">Rp <?= number_format($row['total_bayar'], 0, ',', '.') ?></td>
+                                <td class="px-6 py-4 text-gray-400 italic text-[10px]"><?= $row['catatan'] ?: '-' ?></td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-green-50 text-green-600 font-bold text-[10px] px-2 py-1 rounded-full border border-green-100 uppercase">
+                                        <?= $row['status'] ?>
+                                    </span>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" class="px-6 py-10 text-center text-gray-400 italic">Belum ada transaksi pada periode ini.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

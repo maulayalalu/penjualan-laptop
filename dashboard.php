@@ -54,7 +54,7 @@ $pendapatan_format = number_format($total_pendapatan / 1000000, 1);
                     <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Laptop Terjual</p><p class="text-2xl font-bold text-gray-800 mt-1"><?= $total_terjual ?></p></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
-                    <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-purple-50 rounded-xl">🪙</span><span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded-md">Gross</span></div>
+                    <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-purple-50 rounded-xl">🪙</span><span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded-md">Meningkat</span></div>
                     <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Pendapatan (IDR)</p><p class="text-2xl font-bold text-gray-800 mt-1"><?= $pendapatan_format ?>jt</p></div>
                 </div>
             </div>
@@ -83,7 +83,7 @@ $pendapatan_format = number_format($total_pendapatan / 1000000, 1);
                     <div>
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="font-bold text-gray-800">Transaksi Terkini</h3>
-                            <a href="laporan-laptop.php" class="text-xs text-blue-600 font-semibold hover:underline">Lihat Semua</a>
+                            <a href="laporan.php" class="text-blue-600">Lihat Semua</a>
                         </div>
                         <div class="space-y-4">
                             <?php 
