@@ -3,14 +3,10 @@ include 'config.php';
 
 // --- LOGIKA HAPUS DATA ---
 if (isset($_GET['hapus'])) {
-    // Mengambil ID dari URL (?hapus=ID)
     $id = mysqli_real_escape_string($conn, $_GET['hapus']);
-    
-    // Menjalankan perintah hapus ke database
     $query_hapus = "DELETE FROM laptops WHERE id = '$id'";
     
     if (mysqli_query($conn, $query_hapus)) {
-        // Jika berhasil, balikkan ke halaman data-laptop tanpa parameter hapus
         header("Location: data-laptop.php");
         exit;
     } else {
@@ -18,8 +14,22 @@ if (isset($_GET['hapus'])) {
     }
 }
 
-// Mengambil data terbaru dari database
-$query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
+// --- LOGIKA PENCARIAN ---
+$keyword = "";
+if (isset($_GET['cari'])) {
+    $keyword = mysqli_real_escape_string($conn, $_GET['cari']);
+    // Cari berdasarkan nama laptop, merk, atau kode
+    $query_sql = "SELECT * FROM laptops WHERE 
+                  nama_laptop LIKE '%$keyword%' OR 
+                  merk LIKE '%$keyword%' OR 
+                  kode_laptop LIKE '%$keyword%' 
+                  ORDER BY id DESC";
+} else {
+    // Jika tidak ada pencarian, ambil semua data seperti biasa
+    $query_sql = "SELECT * FROM laptops ORDER BY id DESC";
+}
+
+$query = mysqli_query($conn, $query_sql);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -38,7 +48,13 @@ $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800">Data Inventaris Laptop</h2>
-                    <p class="text-xs text-gray-500">Kelola stok dan spesifikasi perangkat</p>
+                    <p class="text-xs text-gray-500">
+                        <?php if($keyword != ""): ?>
+                            Menampilkan hasil pencarian untuk: "<?= htmlspecialchars($keyword) ?>"
+                        <?php else: ?>
+                            Kelola stok dan spesifikasi perangkat
+                        <?php endif; ?>
+                    </p>
                 </div>
                 <a href="tambah-laptop.php" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all">
                     + Tambah Laptop
@@ -58,39 +74,47 @@ $query = mysqli_query($conn, "SELECT * FROM laptops ORDER BY id DESC");
                         </tr>
                     </thead>
                     <tbody class="text-xs divide-y divide-gray-50">
-                        <?php while($row = mysqli_fetch_assoc($query)): ?>
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 text-gray-400 font-medium">#<?= $row['kode_laptop'] ?></td>
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-gray-800"><?= $row['nama_laptop'] ?></p>
-                                <p class="text-[10px] text-gray-400"><?= $row['merk'] ?></p>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex gap-1">
-                                    <span class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded text-[10px] font-bold"><?= $row['ram'] ?></span>
-                                    <span class="bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded text-[10px] font-bold"><?= $row['storage'] ?></span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 font-bold text-gray-700">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
-                            <td class="px-6 py-4">
-                                <span class="<?= $row['stok'] > 5 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' ?> px-2 py-1 rounded-lg font-bold">
-                                    <?= $row['stok'] ?> Unit
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="flex justify-center space-x-3">
-                                    <a href="tambah-laptop.php?edit=<?= $row['id'] ?>" class="p-2 hover:bg-blue-50 rounded-lg transition-colors group">
-                                        <span class="grayscale group-hover:grayscale-0">✏️</span>
-                                    </a>
-                                    <a href="data-laptop.php?hapus=<?= $row['id'] ?>" 
-                                       class="p-2 hover:bg-red-50 rounded-lg transition-colors group" 
-                                       onclick="return confirm('Yakin ingin menghapus laptop <?= $row['nama_laptop'] ?>?')">
-                                        <span class="grayscale group-hover:grayscale-0">🗑️</span>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endwhile; ?>
+                        <?php if(mysqli_num_rows($query) > 0): ?>
+                            <?php while($row = mysqli_fetch_assoc($query)): ?>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4 text-gray-400 font-medium">#<?= $row['kode_laptop'] ?></td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-gray-800"><?= $row['nama_laptop'] ?></p>
+                                    <p class="text-[10px] text-gray-400"><?= $row['merk'] ?></p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex gap-1">
+                                        <span class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded text-[10px] font-bold"><?= $row['ram'] ?></span>
+                                        <span class="bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded text-[10px] font-bold"><?= $row['storage'] ?></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-700">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
+                                <td class="px-6 py-4">
+                                    <span class="<?= $row['stok'] > 5 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' ?> px-2 py-1 rounded-lg font-bold">
+                                        <?= $row['stok'] ?> Unit
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="flex justify-center space-x-3">
+                                        <a href="tambah-laptop.php?edit=<?= $row['id'] ?>" class="p-2 hover:bg-blue-50 rounded-lg transition-colors group">
+                                            <span class="grayscale group-hover:grayscale-0">✏️</span>
+                                        </a>
+                                        <a href="data-laptop.php?hapus=<?= $row['id'] ?>" 
+                                           class="p-2 hover:bg-red-50 rounded-lg transition-colors group" 
+                                           onclick="return confirm('Yakin ingin menghapus laptop <?= $row['nama_laptop'] ?>?')">
+                                            <span class="grayscale group-hover:grayscale-0">🗑️</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="px-6 py-10 text-center text-gray-400 italic">
+                                    Data tidak ditemukan untuk kata kunci "<?= htmlspecialchars($keyword) ?>"
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
