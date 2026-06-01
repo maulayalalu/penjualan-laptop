@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Laptop Sales</title>
+    <title>Login - A-LINKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-tr from-blue-50 to-indigo-100 min-h-screen flex flex-col justify-between items-center py-12">
@@ -10,7 +10,7 @@
         <div class="inline-flex items-center justify-center p-3 bg-blue-600 rounded-xl text-white mb-4 shadow-md shadow-blue-200">
             💻
         </div>
-        <h2 class="text-2xl font-bold text-gray-800">Laptop Sales</h2>
+        <h2 class="text-2xl font-bold text-gray-800">A-LINKS</h2>
         <p class="text-sm text-gray-500 mt-1 mb-6">Sistem Manajemen Penjualan Terintegrasi</p>
         
         <form action="dashboard.php" method="POST" class="text-left space-y-4">
@@ -18,7 +18,7 @@
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">👤</span>
-                    <input type="text" name="username" value="lown" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" name="username" value="laya" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
             <div>
