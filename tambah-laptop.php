@@ -37,7 +37,8 @@ if (isset($_POST['simpan'])) {
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Merk</label>
                         <select name="merk" class="w-full px-4 py-2 border rounded-lg text-xs">
-                            <option>Apple</option><option>Dell</option><option>Asus</option><option>Lenovo</option><option>Acer</option><option>HP</option>
+                            <option>Apple</option><option>Dell</option><option>Asus</option><option>Lenovo</option><option>Acer</option><option>HP</option><option>AXIOO</option><option>AVITA</option><option>ZREX</option>
+                            <option>HUWAWEI</option><option>INFINIX</option><option>XIOMI</option>
                         </select>
                     </div>
                     <div>

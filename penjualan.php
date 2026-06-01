@@ -34,7 +34,7 @@ if (isset($_POST['simpan_transaksi'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Penjualan - Laptop Sales</title>
+    <title>Penjualan - A-LINKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 flex">

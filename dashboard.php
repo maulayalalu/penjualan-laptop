@@ -18,7 +18,7 @@
             <div class="grid grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-blue-50 rounded-xl">💻</span><span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md">+2.5%</span></div>
-                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Model Laptop</p><p class="text-2xl font-bold text-gray-800 mt-1">50</p></div>
+                    <div class="mt-4"><p class="text-xs text-gray-400 font-medium">Total Model Laptop</p><p class="text-2xl font-bold text-gray-800 mt-1">20</p></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
                     <div class="flex justify-between items-start"><span class="text-2xl p-2 bg-orange-50 rounded-xl">📦</span><span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-md">Stok Rendah</span></div>
